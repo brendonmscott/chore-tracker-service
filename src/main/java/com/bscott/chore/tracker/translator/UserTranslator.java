@@ -1,0 +1,67 @@
+package com.bscott.chore.tracker.translator;
+
+import com.bscott.chore.tracker.domain.LoginCredentials;
+import com.bscott.chore.tracker.domain.User;
+import com.bscott.chore.tracker.dto.RegisterUserDto;
+import com.bscott.chore.tracker.dto.UserDto;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.ConfigurableMapper;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class UserTranslator extends ConfigurableMapper {
+
+    private MapperFacade mapper;
+
+    @Override
+    protected void configure(MapperFactory factory) {
+
+        factory.getConverterFactory().registerConverter(new LocalDateConverter());
+
+        factory.classMap(User.class, UserDto.class)
+                .byDefault()
+                .register();
+
+        mapper = factory.getMapperFacade();
+    }
+
+    public List<UserDto> toDtos(List<User> entityList){
+
+        if (entityList == null) {
+            return new ArrayList<>();
+        }
+
+        List<UserDto> dtos = new ArrayList<>();
+
+        for (User entity : entityList) {
+            dtos.add(toDto(entity));
+        }
+
+        return dtos;
+    }
+
+    public UserDto toDto(User entity) {
+        return mapper.map(entity, UserDto.class);
+    }
+
+    public User toEntity(UserDto dto) {
+        return mapper.map(dto, User.class);
+    }
+
+    public LoginCredentials getLoginCredentials(RegisterUserDto registerUserDto) {
+
+        if (registerUserDto == null) {
+            return null;
+        }
+
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setEmail(registerUserDto.getEmail());
+        loginCredentials.setPassword(registerUserDto.getPassword());
+
+        return loginCredentials;
+    }
+}
