@@ -17,9 +17,6 @@ public class RewardTranslator extends ConfigurableMapper {
 
     @Override
     protected void configure(MapperFactory factory) {
-
-        factory.getConverterFactory().registerConverter(new LocalDateConverter());
-
         factory.classMap(Reward.class, RewardDto.class)
                 .byDefault()
                 .register();

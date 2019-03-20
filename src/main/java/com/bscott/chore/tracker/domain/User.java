@@ -1,13 +1,13 @@
 package com.bscott.chore.tracker.domain;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,7 +27,8 @@ public class User {
     private String username;
     @NotEmpty
     private String password;
-    private Set<String> roles = new HashSet<>();
+    private Set<String> roles;
+    private List<User> familyMembers;
 
     public User(){
     }
@@ -44,4 +45,4 @@ public class User {
     public String getName() {
         return firstName + " " + lastName;
     }
-}
+ }

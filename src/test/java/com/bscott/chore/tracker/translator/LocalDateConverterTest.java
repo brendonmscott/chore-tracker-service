@@ -16,14 +16,14 @@ public class LocalDateConverterTest {
         Type<String> destinationType = null;
         String date = localDateConverter.convertTo(new LocalDate("2016-04-09"), destinationType);
 
-        assertEquals("04/09/2016", date);
+        assertEquals("2016-04-09", date);
     }
 
     @Test
     public void testConvertFrom(){
 
         Type<LocalDate> destinationType = null;
-        LocalDate date = localDateConverter.convertFrom("04/09/2016", destinationType);
+        LocalDate date = localDateConverter.convertFrom("2016-04-09", destinationType);
 
         assertEquals("2016-04-09", date.toString());
     }

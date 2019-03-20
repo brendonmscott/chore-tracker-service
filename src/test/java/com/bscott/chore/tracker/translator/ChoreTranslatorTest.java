@@ -55,7 +55,7 @@ public class ChoreTranslatorTest {
         assertEquals(chore.getAssignee().getId(), choreDto.getAssignee().getId());
         assertEquals(chore.getAssignee().getFirstName(), choreDto.getAssignee().getFirstName());
         assertEquals(chore.getAssignee().getLastName(), choreDto.getAssignee().getLastName());
-        assertEquals(chore.getAssignee().getBirthDate().toString("MM/dd/YYYY"), choreDto.getAssignee().getBirthDate());
+        assertEquals(chore.getAssignee().getBirthDate().toString(), choreDto.getAssignee().getBirthDate());
         assertEquals(chore.getAssignee().getMoneyEarned(), choreDto.getAssignee().getMoneyEarned());
         assertEquals(chore.getAssignee().getPointsEarned(), choreDto.getAssignee().getPointsEarned());
 
@@ -119,7 +119,7 @@ public class ChoreTranslatorTest {
         assertEquals(chore.getAssignee().getId(), choreDtos.get(0).getAssignee().getId());
         assertEquals(chore.getAssignee().getFirstName(), choreDtos.get(0).getAssignee().getFirstName());
         assertEquals(chore.getAssignee().getLastName(), choreDtos.get(0).getAssignee().getLastName());
-        assertEquals(chore.getAssignee().getBirthDate().toString("MM/dd/YYYY"), choreDtos.get(0).getAssignee().getBirthDate());
+        assertEquals(chore.getAssignee().getBirthDate().toString(), choreDtos.get(0).getAssignee().getBirthDate());
         assertEquals(chore.getAssignee().getMoneyEarned(), choreDtos.get(0).getAssignee().getMoneyEarned());
         assertEquals(chore.getAssignee().getPointsEarned(), choreDtos.get(0).getAssignee().getPointsEarned());
 
@@ -137,7 +137,7 @@ public class ChoreTranslatorTest {
         assertEquals(chore2.getAssignee().getId(), choreDtos.get(1).getAssignee().getId());
         assertEquals(chore2.getAssignee().getFirstName(), choreDtos.get(1).getAssignee().getFirstName());
         assertEquals(chore2.getAssignee().getLastName(), choreDtos.get(1).getAssignee().getLastName());
-        assertEquals(chore2.getAssignee().getBirthDate().toString("MM/dd/YYYY"), choreDtos.get(1).getAssignee().getBirthDate());
+        assertEquals(chore2.getAssignee().getBirthDate().toString(), choreDtos.get(1).getAssignee().getBirthDate());
         assertEquals(chore2.getAssignee().getMoneyEarned(), choreDtos.get(1).getAssignee().getMoneyEarned());
         assertEquals(chore2.getAssignee().getPointsEarned(), choreDtos.get(1).getAssignee().getPointsEarned());
 
@@ -169,7 +169,7 @@ public class ChoreTranslatorTest {
         userDto.setId("583a9be33004dfd16b956697");
         userDto.setFirstName("Emery");
         userDto.setLastName("Scott");
-        userDto.setBirthDate("04/09/2016");
+        userDto.setBirthDate("2016-04-09");
         userDto.setMoneyEarned(BigDecimal.ZERO);
         userDto.setPointsEarned(100);
 
@@ -195,7 +195,7 @@ public class ChoreTranslatorTest {
         assertEquals(choreDto.getAssignee().getId(), chore.getAssignee().getId());
         assertEquals(choreDto.getAssignee().getFirstName(), chore.getAssignee().getFirstName());
         assertEquals(choreDto.getAssignee().getLastName(), chore.getAssignee().getLastName());
-        assertEquals(choreDto.getAssignee().getBirthDate(), chore.getAssignee().getBirthDate().toString("MM/dd/YYYY"));
+        assertEquals(choreDto.getAssignee().getBirthDate(), chore.getAssignee().getBirthDate().toString());
         assertEquals(choreDto.getAssignee().getMoneyEarned(), chore.getAssignee().getMoneyEarned());
         assertEquals(choreDto.getAssignee().getPointsEarned(), chore.getAssignee().getPointsEarned());
 

@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(allowCredentials = "true")
 @Api(value = "/chores")
 @RequestMapping("/chores")
 @RestController
@@ -34,6 +36,21 @@ public class ChoreController {
 
     @Autowired
     private ChoreTranslator choreTranslator;
+
+    @ApiOperation(value = "Get a chore by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Chore was retrieved successfully")})
+    @GetMapping("/{id}")
+    ResponseEntity getChore(@ApiParam(value = "The choreId to find", required = true)
+                               @PathVariable("id") String id) {
+
+        Chore chore = choreService.findChore(id);
+
+        if (chore == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(choreTranslator.toDto(chore));    }
 
     @ApiOperation(value = "Get Chores")
     @ApiResponses(value = {

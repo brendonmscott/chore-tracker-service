@@ -3,7 +3,6 @@ package com.bscott.chore.tracker.controller;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.dto.UserDto;
 import com.bscott.chore.tracker.service.UserService;
-import com.bscott.chore.tracker.translator.AccountTranslator;
 import com.bscott.chore.tracker.translator.UserTranslator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,8 +12,11 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@CrossOrigin(allowCredentials = "true")
 @Api(value = "/users")
 @RequestMapping("/users")
 @RestController
@@ -41,7 +44,7 @@ public class UserController {
     @GetMapping("/{id}")
     ResponseEntity<UserDto> findUserById(
             @ApiParam(value = "The id of the User to find", required = true)
-            @RequestParam("id") String id) {
+            @PathVariable("id") String id) {
         User user = userService.findUserById(id);
 
         if (user == null) {
@@ -49,6 +52,38 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userTranslator.toDto(user));
+    }
+
+    @ApiOperation(value = "Find a user by search criteria")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User was retrieved successfully")})
+    @GetMapping
+    ResponseEntity<UserDto> findUser(
+            @ApiParam(value = "The username of the User to find")
+            @RequestParam(value = "username", required = false) String username,
+            @ApiParam(value = "The email of the User to find")
+            @RequestParam(value = "email", required = false) String email) {
+
+        User user = userService.findUser(username, email);
+        log.info("User found by query: {}", user);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(userTranslator.toDto(user));
+    }
+
+    @ApiOperation(value = "Add a user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User was added successfully")})
+    @Valid
+    @PostMapping
+    ResponseEntity<UserDto> addUser(@ApiParam(value = "The user to add", required = true)
+                                       @RequestBody UserDto userDto) {
+
+        User newUser = userService.addUser(userTranslator.toEntity(userDto));
+        return ResponseEntity.ok(userTranslator.toDto(newUser));
     }
 
     @ApiOperation(value = "Update a user")
@@ -68,7 +103,7 @@ public class UserController {
             @ApiResponse(code = 204, message = "User was deleted successfully")})
     @DeleteMapping("/{id}")
     ResponseEntity deleteUser(@ApiParam(value = "The userId to delete", required = true)
-                              @RequestParam("id") String id) {
+                              @PathVariable("id") String id) {
 
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

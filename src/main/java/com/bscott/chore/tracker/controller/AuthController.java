@@ -8,6 +8,7 @@ import com.bscott.chore.tracker.dto.LoginRequestDto;
 import com.bscott.chore.tracker.dto.SignUpRequestDto;
 import com.bscott.chore.tracker.repository.UserRepository;
 import com.bscott.chore.tracker.security.JwtTokenProvider;
+import com.bscott.chore.tracker.security.UserPrincipal;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 
+@CrossOrigin(allowCredentials = "true")
 @RequestMapping("/auth")
 @RestController
 public class AuthController {
@@ -48,7 +51,7 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
@@ -56,7 +59,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponseDto(jwt));
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return ResponseEntity.ok(new JwtAuthenticationResponseDto(userPrincipal.getId(), jwt));
     }
 
     @PostMapping("/signup")

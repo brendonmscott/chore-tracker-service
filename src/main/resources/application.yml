@@ -4,14 +4,24 @@ app:
 
 server:
   port: ${PORT:8380}
-  servlet:
-    context-path: /v1/api
 
 spring:
+  profiles:
+    active: "dev"
   data:
     mongodb:
       host: mongo
       database: chore_tracker
+
+# Expose actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 
 logging:
     pattern:
@@ -26,9 +36,22 @@ eureka:
     serviceUrl:
       defaultZone: ${DISCOVERY_URL:http://localhost:8761}/eureka/
   instance:
+    hostname: chore-tracker-service
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+    metadata-map:
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
 
 ribbon:
   eureka:
     enabled: true
+
+---
+
+spring:
+  profiles: dev
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+

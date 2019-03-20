@@ -1,13 +1,14 @@
 package com.bscott.chore.tracker.dto;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class LoginRequestDto {
 
     @NotBlank
-    private String usernameOrEmail;
+    private String email;
     @NotBlank
     private String password;
 }

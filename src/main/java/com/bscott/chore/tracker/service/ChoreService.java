@@ -6,12 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChoreService {
 
     @Autowired
     private ChoreRepository choreRepository;
+
+    public Chore findChore(String choreId) {
+
+        Optional<Chore> chore = choreRepository.findById(choreId);
+
+        return chore.orElse(null);
+    }
 
     public List<Chore> getChores(String assigneeId) {
 
@@ -31,11 +39,15 @@ public class ChoreService {
         return choreRepository.save(chore);
     }
 
-    public Chore updateChore(Chore chore) {
+    public Chore updateChore(Chore updatedChore) {
 
-        choreRepository.save(chore);
+        Chore chore = findChore(updatedChore.getId());
 
-        return chore;
+        if (chore != null) {
+            choreRepository.save(updatedChore);
+        }
+
+        return updatedChore;
     }
 
     public void deleteChore(String id) {

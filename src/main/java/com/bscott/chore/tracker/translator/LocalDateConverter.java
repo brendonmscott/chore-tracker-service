@@ -11,13 +11,13 @@ public class LocalDateConverter extends BidirectionalConverter<LocalDate, String
 
    @Override
    public String convertTo(LocalDate source, Type<String> destinationType) {
-      return source.toString("MM/dd/YYYY");
+      return source.toString();
    }
 
    @Override
    public LocalDate convertFrom(String source, Type<LocalDate> destinationType) {
 
-      DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/YYYY");
+      DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd");
       return dtf.parseLocalDate(source);
    }
 }
