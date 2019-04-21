@@ -4,7 +4,7 @@ import com.bscott.chore.tracker.domain.RoleName;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.dto.ApiResponse;
 import com.bscott.chore.tracker.dto.JwtAuthenticationResponseDto;
-import com.bscott.chore.tracker.dto.LoginRequestDto;
+import com.bscott.chore.tracker.dto.CredentialsDto;
 import com.bscott.chore.tracker.dto.SignUpRequestDto;
 import com.bscott.chore.tracker.repository.UserRepository;
 import com.bscott.chore.tracker.security.JwtTokenProvider;
@@ -47,7 +47,7 @@ public class AuthController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequestDto loginRequest) {
+    public ResponseEntity authenticateUser(@Valid @RequestBody CredentialsDto loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -66,19 +66,19 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequest) {
 
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpRequest.getUserName())) {
             return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getCredentials().getEmail())) {
             return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         // Creating user's account
         User user = new User(signUpRequest.getFirstName(), signUpRequest.getLastName(), new LocalDate(signUpRequest.getBirthDate()),
-                signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword());
+                signUpRequest.getUserName(), signUpRequest.getCredentials().getEmail(), signUpRequest.getCredentials().getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(RoleName.ROLE_USER.toString()));
