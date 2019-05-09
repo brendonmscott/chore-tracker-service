@@ -14,6 +14,7 @@ cache:
 
 addons:
   sonarqube:
+    organization: "brendonmscott-github"
     token:
       secure: ${SONAR_TOKEN}
 
