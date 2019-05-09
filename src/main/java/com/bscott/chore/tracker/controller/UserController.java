@@ -86,6 +86,49 @@ public class UserController {
         return ResponseEntity.ok(userTranslator.toDto(newUser));
     }
 
+    @ApiOperation(value = "Add a family member")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Family member was added successfully")})
+    @Valid
+    @PostMapping("/{id}/familyMembers")
+    ResponseEntity<UserDto> addFamilyMember(
+            @ApiParam(value = "The userId to add a family member to", required = true)
+            @PathVariable("id") String id,
+            @ApiParam(value = "The family member to add", required = true)
+            @RequestBody UserDto familyMember) {
+
+        User updatedUser = userService.addFamilyMember(id, userTranslator.toEntity(familyMember));
+        return ResponseEntity.ok(userTranslator.toDto(updatedUser));
+    }
+
+    @ApiOperation(value = "Remove a Family Member by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Family Member was deleted successfully")})
+    @DeleteMapping("/{id}/familyMembers/{familyMemberId}")
+    ResponseEntity deleteFamilyMember(@ApiParam(value = "The user Id to delete a family member for", required = true)
+                                      @PathVariable("id") String userId,
+                                      @ApiParam(value = "The family member Id to delete", required = true)
+                                      @PathVariable("familyMemberId") String familyMemberId) {
+
+        userService.removeFamilyMember(userId, familyMemberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ApiOperation(value = "Update a family member")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Family Member was updated successfully")})
+    @Valid
+    @PutMapping("/{id}/familyMembers")
+    ResponseEntity<UserDto> updateFamilyMember(
+            @ApiParam(value = "The user Id to update a family member for", required = true)
+            @PathVariable("id") String userId,
+            @ApiParam(value = "The family member to update", required = true)
+            @RequestBody UserDto familyMember) {
+
+        User updatedUser = userService.updateFamilyMember(userId, userTranslator.toEntity(familyMember));
+        return ResponseEntity.ok(userTranslator.toDto(updatedUser));
+    }
+
     @ApiOperation(value = "Update a user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User was updated successfully")})
