@@ -42,7 +42,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User was retrieved successfully")})
     @GetMapping("/{id}")
-    ResponseEntity<UserDto> findUserById(
+    public ResponseEntity<UserDto> findUserById(
             @ApiParam(value = "The id of the User to find", required = true)
             @PathVariable("id") String id) {
         User user = userService.findUserById(id);
@@ -58,7 +58,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User was retrieved successfully")})
     @GetMapping
-    ResponseEntity<UserDto> findUser(
+    public ResponseEntity<UserDto> findUser(
             @ApiParam(value = "The username of the User to find")
             @RequestParam(value = "username", required = false) String username,
             @ApiParam(value = "The email of the User to find")
@@ -79,7 +79,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "User was added successfully")})
     @Valid
     @PostMapping
-    ResponseEntity<UserDto> addUser(@ApiParam(value = "The user to add", required = true)
+    public ResponseEntity<UserDto> addUser(@ApiParam(value = "The user to add", required = true)
                                        @RequestBody UserDto userDto) {
 
         User newUser = userService.addUser(userTranslator.toEntity(userDto));
@@ -91,7 +91,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Family member was added successfully")})
     @Valid
     @PostMapping("/{id}/familyMembers")
-    ResponseEntity<UserDto> addFamilyMember(
+    public ResponseEntity<UserDto> addFamilyMember(
             @ApiParam(value = "The userId to add a family member to", required = true)
             @PathVariable("id") String id,
             @ApiParam(value = "The family member to add", required = true)
@@ -105,7 +105,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Family Member was deleted successfully")})
     @DeleteMapping("/{id}/familyMembers/{familyMemberId}")
-    ResponseEntity deleteFamilyMember(@ApiParam(value = "The user Id to delete a family member for", required = true)
+    public ResponseEntity deleteFamilyMember(@ApiParam(value = "The user Id to delete a family member for", required = true)
                                       @PathVariable("id") String userId,
                                       @ApiParam(value = "The family member Id to delete", required = true)
                                       @PathVariable("familyMemberId") String familyMemberId) {
@@ -119,7 +119,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Family Member was updated successfully")})
     @Valid
     @PutMapping("/{id}/familyMembers")
-    ResponseEntity<UserDto> updateFamilyMember(
+    public ResponseEntity<UserDto> updateFamilyMember(
             @ApiParam(value = "The user Id to update a family member for", required = true)
             @PathVariable("id") String userId,
             @ApiParam(value = "The family member to update", required = true)
@@ -134,7 +134,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "User was updated successfully")})
     @Valid
     @PutMapping
-    ResponseEntity<UserDto> updateUser(@ApiParam(value = "The user to update", required = true)
+    public ResponseEntity<UserDto> updateUser(@ApiParam(value = "The user to update", required = true)
                                        @RequestBody UserDto userDto) {
 
         User updatedUser = userService.updateUser(userTranslator.toEntity(userDto));
@@ -145,7 +145,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "User was deleted successfully")})
     @DeleteMapping("/{id}")
-    ResponseEntity deleteUser(@ApiParam(value = "The userId to delete", required = true)
+    public ResponseEntity deleteUser(@ApiParam(value = "The userId to delete", required = true)
                               @PathVariable("id") String id) {
 
         userService.deleteUser(id);

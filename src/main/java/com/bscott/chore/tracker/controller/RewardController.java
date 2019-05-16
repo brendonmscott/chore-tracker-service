@@ -41,7 +41,7 @@ public class RewardController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Rewards were retrieved successfully")})
     @GetMapping
-    ResponseEntity<List<RewardDto>> findRewards(@ApiParam(name = "type") @RequestParam("type") String type) {
+    public ResponseEntity<List<RewardDto>> findRewards(@ApiParam(name = "type") @RequestParam("type") String type) {
 
         List<Reward> rewards = rewardService.getRewards(type);
 
@@ -56,7 +56,7 @@ public class RewardController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Reward was added successfully")})
     @PostMapping
-    ResponseEntity<RewardDto> addReward(@ApiParam(value = "The reward to add", required = true)
+    public ResponseEntity<RewardDto> addReward(@ApiParam(value = "The reward to add", required = true)
                                         @RequestBody RewardDto rewardDto) {
 
         Reward newReward = rewardService.addReward(rewardTranslator.toEntity(rewardDto));
@@ -68,7 +68,7 @@ public class RewardController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Reward was updated successfully")})
     @PutMapping
-    ResponseEntity<RewardDto> updateReward(@ApiParam(value = "The reward to update", required = true)
+    public ResponseEntity<RewardDto> updateReward(@ApiParam(value = "The reward to update", required = true)
                                            @RequestBody RewardDto rewardDto) {
 
         Reward updatedReward = rewardService.updateReward(rewardTranslator.toEntity(rewardDto));
@@ -79,7 +79,7 @@ public class RewardController {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Reward was deleted successfully")})
     @DeleteMapping("/{id}")
-    ResponseEntity deleteReward(@ApiParam(value = "The rewardId to delete", required = true)
+    public ResponseEntity deleteReward(@ApiParam(value = "The rewardId to delete", required = true)
                                 @PathVariable("id") String id) {
 
         rewardService.deleteReward(id);

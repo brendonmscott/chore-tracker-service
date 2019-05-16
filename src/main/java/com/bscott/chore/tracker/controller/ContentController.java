@@ -40,7 +40,7 @@ public class ContentController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Banner messages were retrieved successfully")})
     @GetMapping("/banner/messages")
-    ResponseEntity<List<BannerMessageDto>> getBannerMessages() {
+    public ResponseEntity<List<BannerMessageDto>> getBannerMessages() {
 
         List<BannerMessage> bannerMessages = contentService.getBannerMessages();
 
@@ -55,7 +55,7 @@ public class ContentController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chore was added successfully")})
     @PostMapping("/banner/messages")
-    ResponseEntity<BannerMessageDto> addBannerMessage(@ApiParam(value = "The banner messages to add", required = true)
+    public ResponseEntity<BannerMessageDto> addBannerMessage(@ApiParam(value = "The banner messages to add", required = true)
                                                       @RequestBody BannerMessageDto bannerMessageDto) {
 
         BannerMessage newBannerMessage = contentService.addBannerMessage(bannerMessageTranslator.toEntity(bannerMessageDto));
@@ -66,7 +66,7 @@ public class ContentController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Banner Message was updated successfully")})
     @PutMapping("/banner/messages")
-    ResponseEntity updateBannerMessage(@ApiParam(value = "The banner message to update", required = true)
+    public ResponseEntity updateBannerMessage(@ApiParam(value = "The banner message to update", required = true)
                                        @RequestBody BannerMessageDto bannerMessageDto) {
 
         BannerMessage updatedBannerMessage = contentService.updateBannerMessage(bannerMessageTranslator.toEntity(bannerMessageDto));
@@ -77,7 +77,7 @@ public class ContentController {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Banner Message was deleted successfully")})
     @DeleteMapping("/banner/messages/{id}")
-    ResponseEntity deleteBannerMessage(@ApiParam(value = "The bannerMessageId to delete", required = true)
+    public ResponseEntity deleteBannerMessage(@ApiParam(value = "The bannerMessageId to delete", required = true)
                                        @PathVariable("id") String id) {
 
         contentService.deleteBannerMessage(id);

@@ -59,7 +59,7 @@ public class ChoreServiceTest {
     @Test
     public void testGetChores_ByAssignee(){
 
-        when(choreRepository.findChoresByAssignee_Id("Emery")).thenReturn(chores);
+        when(choreRepository.findChoresByAssigneeId("Emery")).thenReturn(chores);
         chores.add(choreOne);
 
         List<Chore> chores = choreService.getChores("Emery");

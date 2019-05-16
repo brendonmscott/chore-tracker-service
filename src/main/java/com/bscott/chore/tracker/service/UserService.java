@@ -1,6 +1,7 @@
 package com.bscott.chore.tracker.service;
 
 import com.bscott.chore.tracker.domain.User;
+import com.bscott.chore.tracker.exception.NullEntityException;
 import com.bscott.chore.tracker.exception.UserNotFoundException;
 import com.bscott.chore.tracker.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class UserService {
     public User addFamilyMember(String userId, User familyMember) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("No user found with id " + userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         User newFamilyMember = addUser(familyMember);
 
@@ -60,7 +61,7 @@ public class UserService {
     public void removeFamilyMember(String userId, String familyMemberId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("No user found with id " + userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         deleteUser(familyMemberId);
 
@@ -71,7 +72,7 @@ public class UserService {
     public User updateFamilyMember(String userId, User familyMember) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("No user found with id " + userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         updateUser(familyMember);
 
@@ -83,6 +84,10 @@ public class UserService {
     }
 
     public User updateUser(User user) {
+
+        if (user == null) {
+            throw new NullEntityException(this.getClass().getName());
+        }
 
         userRepository.save(user);
         return user;

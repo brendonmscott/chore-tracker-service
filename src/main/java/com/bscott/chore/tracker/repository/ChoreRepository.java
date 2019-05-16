@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ChoreRepository extends MongoRepository<Chore, String> {
 
     Optional<Chore> findById(String id);
-    List<Chore> findChoresByAssignee_Id(String assigneeId);
+    List<Chore> findChoresByAssigneeId(String assigneeId);
 }

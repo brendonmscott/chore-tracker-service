@@ -41,7 +41,7 @@ public class ChoreController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chore was retrieved successfully")})
     @GetMapping("/{id}")
-    ResponseEntity getChore(@ApiParam(value = "The choreId to find", required = true)
+    public ResponseEntity getChore(@ApiParam(value = "The choreId to find", required = true)
                                @PathVariable("id") String id) {
 
         Chore chore = choreService.findChore(id);
@@ -56,7 +56,7 @@ public class ChoreController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chores were retrieved successfully")})
     @GetMapping
-    ResponseEntity<List<ChoreDto>> findChores(@ApiParam(name="assigneeId")
+    public ResponseEntity<List<ChoreDto>> findChores(@ApiParam(name="assigneeId")
                                               @RequestParam(value = "assigneeId", required = false) String assigneeId) {
 
         List<Chore> chores = choreService.getChores(assigneeId);
@@ -72,7 +72,7 @@ public class ChoreController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chore was added successfully")})
     @PostMapping
-    ResponseEntity<ChoreDto> addChore(@ApiParam(value = "The chore to add", required = true)
+    public ResponseEntity<ChoreDto> addChore(@ApiParam(value = "The chore to add", required = true)
                                       @RequestBody ChoreDto choreDto) {
 
         Chore newChore = choreService.addChore(choreTranslator.toEntity(choreDto));
@@ -83,7 +83,7 @@ public class ChoreController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chore was updated successfully")})
     @PutMapping
-    ResponseEntity<ChoreDto> updateChore(@ApiParam(value = "The chore to update", required = true)
+    public ResponseEntity<ChoreDto> updateChore(@ApiParam(value = "The chore to update", required = true)
                                          @RequestBody ChoreDto choreDto) {
 
         Chore updatedChore = choreService.updateChore(choreTranslator.toEntity(choreDto));
@@ -94,7 +94,7 @@ public class ChoreController {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Chore was deleted successfully")})
     @DeleteMapping("/{id}")
-    ResponseEntity deleteChore(@ApiParam(value = "The choreId to delete", required = true)
+    public ResponseEntity deleteChore(@ApiParam(value = "The choreId to delete", required = true)
                                @PathVariable("id") String id) {
 
         choreService.deleteChore(id);

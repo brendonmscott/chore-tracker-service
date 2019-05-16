@@ -26,7 +26,7 @@ public class ChoreService {
         List<Chore> chores;
 
         if (assigneeId != null) {
-            chores = choreRepository.findChoresByAssignee_Id(assigneeId);
+            chores = choreRepository.findChoresByAssigneeId(assigneeId);
         } else {
             chores = choreRepository.findAll();
         }
