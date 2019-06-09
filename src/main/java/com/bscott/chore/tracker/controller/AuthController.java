@@ -1,6 +1,5 @@
 package com.bscott.chore.tracker.controller;
 
-import com.bscott.chore.tracker.domain.RoleName;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.dto.ApiResponse;
 import com.bscott.chore.tracker.dto.JwtAuthenticationResponseDto;
@@ -9,7 +8,7 @@ import com.bscott.chore.tracker.dto.SignUpRequestDto;
 import com.bscott.chore.tracker.repository.UserRepository;
 import com.bscott.chore.tracker.security.JwtTokenProvider;
 import com.bscott.chore.tracker.security.UserPrincipal;
-import org.joda.time.LocalDate;
+import com.bscott.chore.tracker.translator.RegistrationTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collections;
 
 @CrossOrigin(allowCredentials = "true")
 @RequestMapping("/auth")
@@ -41,7 +38,7 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private RegistrationTranslator registrationTranslator;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -66,7 +63,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequest) {
 
-        if (userRepository.existsByUsername(signUpRequest.getUserName())) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -76,17 +73,10 @@ public class AuthController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        // Creating user's account
-        User user = new User(signUpRequest.getFirstName(), signUpRequest.getLastName(), new LocalDate(signUpRequest.getBirthDate()),
-                signUpRequest.getUserName(), signUpRequest.getCredentials().getEmail(), signUpRequest.getCredentials().getPassword());
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(RoleName.ROLE_USER.toString()));
-
-        User result = userRepository.save(user);
+        User result = userRepository.save(registrationTranslator.toEntity(signUpRequest));
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
+                .fromCurrentContextPath().path("/users" + "?" + "username={username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(Boolean.TRUE, "User registered successfully"));

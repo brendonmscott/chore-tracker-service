@@ -44,7 +44,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findUserById(
             @ApiParam(value = "The id of the User to find", required = true)
-            @PathVariable("id") String id) {
+            @PathVariable("id") Integer id) {
         User user = userService.findUserById(id);
 
         if (user == null) {
@@ -93,7 +93,7 @@ public class UserController {
     @PostMapping("/{id}/familyMembers")
     public ResponseEntity<UserDto> addFamilyMember(
             @ApiParam(value = "The userId to add a family member to", required = true)
-            @PathVariable("id") String id,
+            @PathVariable("id") Integer id,
             @ApiParam(value = "The family member to add", required = true)
             @RequestBody UserDto familyMember) {
 
@@ -106,9 +106,9 @@ public class UserController {
             @ApiResponse(code = 204, message = "Family Member was deleted successfully")})
     @DeleteMapping("/{id}/familyMembers/{familyMemberId}")
     public ResponseEntity deleteFamilyMember(@ApiParam(value = "The user Id to delete a family member for", required = true)
-                                      @PathVariable("id") String userId,
+                                      @PathVariable("id") Integer userId,
                                       @ApiParam(value = "The family member Id to delete", required = true)
-                                      @PathVariable("familyMemberId") String familyMemberId) {
+                                      @PathVariable("familyMemberId") Integer familyMemberId) {
 
         userService.removeFamilyMember(userId, familyMemberId);
         return ResponseEntity.noContent().build();
@@ -121,7 +121,7 @@ public class UserController {
     @PutMapping("/{id}/familyMembers")
     public ResponseEntity<UserDto> updateFamilyMember(
             @ApiParam(value = "The user Id to update a family member for", required = true)
-            @PathVariable("id") String userId,
+            @PathVariable("id") Integer userId,
             @ApiParam(value = "The family member to update", required = true)
             @RequestBody UserDto familyMember) {
 
@@ -146,7 +146,7 @@ public class UserController {
             @ApiResponse(code = 204, message = "User was deleted successfully")})
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@ApiParam(value = "The userId to delete", required = true)
-                              @PathVariable("id") String id) {
+                              @PathVariable("id") Integer id) {
 
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

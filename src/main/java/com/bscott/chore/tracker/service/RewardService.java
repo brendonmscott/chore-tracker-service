@@ -38,7 +38,7 @@ public class RewardService {
         return reward;
     }
 
-    public void deleteReward(String id) {
+    public void deleteReward(Integer id) {
         rewardRepository.deleteById(id);
     }
 }

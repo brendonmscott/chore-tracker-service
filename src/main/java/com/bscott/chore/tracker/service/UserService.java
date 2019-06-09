@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User findUserById(String id) {
+    public User findUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
     }
@@ -42,7 +42,7 @@ public class UserService {
         return user;
     }
 
-    public User addFamilyMember(String userId, User familyMember) {
+    public User addFamilyMember(Integer userId, User familyMember) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -58,7 +58,7 @@ public class UserService {
         return user;
     }
 
-    public void removeFamilyMember(String userId, String familyMemberId) {
+    public void removeFamilyMember(Integer userId, Integer familyMemberId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -69,7 +69,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User updateFamilyMember(String userId, User familyMember) {
+    public User updateFamilyMember(Integer userId, User familyMember) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -93,7 +93,7 @@ public class UserService {
         return user;
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 }

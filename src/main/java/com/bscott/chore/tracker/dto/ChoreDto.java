@@ -2,13 +2,15 @@ package com.bscott.chore.tracker.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ChoreDto {
 
-    private String id;
+    private Integer id;
     private String name;
     private String description;
-    private UserDto assignee;
+    private List<UserDto> assignees;
     private String frequency;
     private RewardDto reward;
 }

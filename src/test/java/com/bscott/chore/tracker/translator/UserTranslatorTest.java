@@ -1,40 +1,77 @@
 package com.bscott.chore.tracker.translator;
 
 import com.bscott.chore.tracker.domain.LoginCredentials;
+import com.bscott.chore.tracker.domain.Role;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.dto.RegisterUserDto;
+import com.bscott.chore.tracker.dto.RoleDto;
 import com.bscott.chore.tracker.dto.UserDto;
-import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserTranslatorTest {
 
-    private UserTranslator userTranslator = new UserTranslator();
+    private static final Integer USER1_ID = 12345;
+    private static final Integer USER2_ID = 67890;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    private UserTranslator userTranslator;
+    private Role adminRole;
+    private Role userRole;
+    private RoleDto adminRoleDto;
+    private RoleDto userRoleDto;
+
+    @Before
+    public void setup(){
+
+        userTranslator = new UserTranslator(passwordEncoder);
+
+        adminRole = new Role();
+        adminRole.setName("admin");
+
+        userRole = new Role();
+        userRole.setName("user");
+
+        adminRoleDto = new RoleDto();
+        adminRoleDto.setName("admin");
+
+        userRoleDto = new RoleDto();
+        userRoleDto.setName("user");
+
+        when(passwordEncoder.encode("password1")).thenReturn("EncodedPassword1");
+    }
 
     @Test
     public void testToDto(){
 
         User user = new User();
-        user.setId("583a9be33004dfd16b956697");
+        user.setId(USER1_ID);
         user.setFirstName("Emery");
         user.setLastName("Scott");
-        user.setBirthDate(new LocalDate("2016-04-09"));
+        user.setBirthDate(LocalDate.parse("2016-04-09"));
         user.setMoneyEarned(BigDecimal.ZERO);
         user.setPointsEarned(100);
-        Set<String> roles = new HashSet<>();
-        roles.add("admin");
-        roles.add("user");
-        user.setRoles(roles);
+
+        user.setRoles(new ArrayList<>());
+        user.getRoles().add(adminRole);
+        user.getRoles().add(userRole);
 
         UserDto userDto = userTranslator.toDto(user);
         assertEquals(user.getId(), userDto.getId());
@@ -44,8 +81,8 @@ public class UserTranslatorTest {
         assertEquals(user.getMoneyEarned(), userDto.getMoneyEarned());
         assertEquals(user.getPointsEarned(), userDto.getPointsEarned());
         assertEquals(2, userDto.getRoles().size());
-        assertTrue(userDto.getRoles().contains("admin"));
-        assertTrue(userDto.getRoles().contains("user"));
+        assertEquals("admin", userDto.getRoles().get(0).getName());
+        assertEquals("user", userDto.getRoles().get(1).getName());
 
     }
 
@@ -61,25 +98,23 @@ public class UserTranslatorTest {
 
         List<User> users = new ArrayList<>();
 
-        User user1 = new User("Brendon", "Scott", new LocalDate("1975-12-19"),
+        User user1 = new User("Brendon", "Scott", LocalDate.parse("1975-12-19"),
         "userName1", "email1", "password1");
-        user1.setId("583a9be33004dfd16b956697");
+        user1.setId(USER1_ID);
         user1.setMoneyEarned(BigDecimal.ZERO);
         user1.setPointsEarned(0);
-        Set<String> roles1 = new HashSet<>();
-        roles1.add("admin");
-        roles1.add("user");
-        user1.setRoles(roles1);
+        user1.setRoles(new ArrayList<>());
+        user1.getRoles().add(adminRole);
+        user1.getRoles().add(userRole);
         users.add(user1);
 
-        User user2 = new User("Emery", "Scott", new LocalDate("2005-04-09"),
+        User user2 = new User("Emery", "Scott", LocalDate.parse("2005-04-09"),
                 "userName2", "email2", "password2");
-        user2.setId("583a9be33004dfd16b956698");
+        user2.setId(USER2_ID);
         user2.setMoneyEarned(BigDecimal.ZERO);
         user2.setPointsEarned(100);
-        Set<String> roles2 = new HashSet<>();
-        roles2.add("user");
-        user2.setRoles(roles2);
+        user2.setRoles(new ArrayList<>());
+        user2.getRoles().add(userRole);
         users.add(user2);
 
         List<UserDto> userDtos = userTranslator.toDtos(users);
@@ -91,8 +126,8 @@ public class UserTranslatorTest {
         assertEquals(user1.getMoneyEarned(), userDtos.get(0).getMoneyEarned());
         assertEquals(user1.getPointsEarned(), userDtos.get(0).getPointsEarned());
         assertEquals(2, userDtos.get(0).getRoles().size());
-        assertTrue(userDtos.get(0).getRoles().contains("admin"));
-        assertTrue(userDtos.get(0).getRoles().contains("user"));
+        assertEquals("admin", userDtos.get(0).getRoles().get(0).getName());
+        assertEquals("user", userDtos.get(0).getRoles().get(1).getName());
 
         assertEquals(user2.getId(), userDtos.get(1).getId());
         assertEquals(user2.getFirstName(), userDtos.get(1).getFirstName());
@@ -101,7 +136,7 @@ public class UserTranslatorTest {
         assertEquals(user2.getMoneyEarned(), userDtos.get(1).getMoneyEarned());
         assertEquals(user2.getPointsEarned(), userDtos.get(1).getPointsEarned());
         assertEquals(1, userDtos.get(1).getRoles().size());
-        assertTrue(userDtos.get(1).getRoles().contains("user"));
+        assertEquals("user", userDtos.get(1).getRoles().get(0).getName());
 
     }
 
@@ -121,16 +156,17 @@ public class UserTranslatorTest {
     public void testToEntity(){
 
         UserDto userDto = new UserDto();
-        userDto.setId("583a9be33004dfd16b956697");
+        userDto.setId(USER1_ID);
         userDto.setFirstName("Emery");
         userDto.setLastName("Scott");
         userDto.setBirthDate("2016-04-09");
         userDto.setMoneyEarned(BigDecimal.ZERO);
         userDto.setPointsEarned(100);
-        Set<String> roles = new HashSet<>();
-        roles.add("admin");
-        roles.add("user");
-        userDto.setRoles(roles);
+        userDto.setPassword("password1");
+
+        userDto.setRoles(new ArrayList<>());
+        userDto.getRoles().add(adminRoleDto);
+        userDto.getRoles().add(userRoleDto);
 
         User user = userTranslator.toEntity(userDto);
         assertEquals(userDto.getId(), user.getId());
@@ -139,9 +175,10 @@ public class UserTranslatorTest {
         assertEquals(userDto.getBirthDate(), user.getBirthDate().toString());
         assertEquals(userDto.getMoneyEarned(), user.getMoneyEarned());
         assertEquals(userDto.getPointsEarned(), user.getPointsEarned());
+        assertEquals("EncodedPassword1", userDto.getPassword());
         assertEquals(2, user.getRoles().size());
-        assertTrue(user.getRoles().contains("admin"));
-        assertTrue(user.getRoles().contains("user"));
+        assertEquals("admin", user.getRoles().get(0).getName());
+        assertEquals("user", user.getRoles().get(1).getName());
     }
 
     @Test

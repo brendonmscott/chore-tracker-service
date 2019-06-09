@@ -7,6 +7,8 @@ import com.bscott.chore.tracker.dto.UserDto;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +17,14 @@ import java.util.List;
 @Component
 public class UserTranslator extends ConfigurableMapper {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private MapperFacade mapper;
+
+    public UserTranslator(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     protected void configure(MapperFactory factory) {
@@ -49,6 +58,11 @@ public class UserTranslator extends ConfigurableMapper {
     }
 
     public User toEntity(UserDto dto) {
+
+        if (dto != null && dto.getPassword() != null) {
+            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
         return mapper.map(dto, User.class);
     }
 

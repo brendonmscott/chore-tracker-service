@@ -1,7 +1,7 @@
 package com.bscott.chore.tracker.repository;
 
 import com.bscott.chore.tracker.domain.BannerMessage;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BannerMessageRepository extends MongoRepository<BannerMessage, String> {
+public interface BannerMessageRepository extends JpaRepository<BannerMessage, Integer> {
 }

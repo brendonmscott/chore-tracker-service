@@ -1,8 +1,9 @@
 package com.bscott.chore.tracker.translator;
 
 import ma.glasnost.orika.metadata.Type;
-import org.joda.time.LocalDate;
 import org.junit.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +15,7 @@ public class LocalDateConverterTest {
     public void testConvertTo(){
 
         Type<String> destinationType = null;
-        String date = localDateConverter.convertTo(new LocalDate("2016-04-09"), destinationType);
+        String date = localDateConverter.convertTo(LocalDate.parse("2016-04-09"), destinationType);
 
         assertEquals("2016-04-09", date);
     }

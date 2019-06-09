@@ -8,26 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
 @DynamicUpdate
-public class BannerMessage {
+public class Role {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column
-    private String headlineOne;
-    @Column
-    private String headlineOneText;
-    @Column
-    private String headlineTwo;
-    @Column
-    private String headlineTwoText;
-    @Column
-    private String headlineThree;
-    @Column
-    private String headlineThreeText;
+    @NotNull
+    private String name;
 }

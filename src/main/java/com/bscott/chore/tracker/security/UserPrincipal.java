@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @ToString
 public class UserPrincipal implements UserDetails {
 
-    private String id;
+    private Integer id;
     private String name;
     private String username;
 
@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(String id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Integer id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -37,7 +37,10 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = user.getRoles()
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
 
         return new UserPrincipal(
                 user.getId(),
@@ -49,7 +52,7 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

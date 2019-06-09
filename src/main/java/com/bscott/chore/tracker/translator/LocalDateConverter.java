@@ -2,11 +2,9 @@ package com.bscott.chore.tracker.translator;
 
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-// TODO: Replace Joda with java.time
+import java.time.LocalDate;
+
 public class LocalDateConverter extends BidirectionalConverter<LocalDate, String> {
 
    @Override
@@ -16,8 +14,6 @@ public class LocalDateConverter extends BidirectionalConverter<LocalDate, String
 
    @Override
    public LocalDate convertFrom(String source, Type<LocalDate> destinationType) {
-
-      DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd");
-      return dtf.parseLocalDate(source);
+      return LocalDate.parse(source);
    }
 }

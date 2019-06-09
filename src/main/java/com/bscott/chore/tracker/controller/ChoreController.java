@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,7 @@ import java.util.List;
 @Api(value = "/chores")
 @RequestMapping("/chores")
 @RestController
+@Slf4j
 public class ChoreController {
 
     @Autowired
@@ -42,7 +44,7 @@ public class ChoreController {
             @ApiResponse(code = 200, message = "Chore was retrieved successfully")})
     @GetMapping("/{id}")
     public ResponseEntity getChore(@ApiParam(value = "The choreId to find", required = true)
-                               @PathVariable("id") String id) {
+                               @PathVariable("id") Integer id) {
 
         Chore chore = choreService.findChore(id);
 
@@ -57,7 +59,7 @@ public class ChoreController {
             @ApiResponse(code = 200, message = "Chores were retrieved successfully")})
     @GetMapping
     public ResponseEntity<List<ChoreDto>> findChores(@ApiParam(name="assigneeId")
-                                              @RequestParam(value = "assigneeId", required = false) String assigneeId) {
+                                              @RequestParam(value = "assigneeId", required = false) Integer assigneeId) {
 
         List<Chore> chores = choreService.getChores(assigneeId);
 
@@ -86,6 +88,7 @@ public class ChoreController {
     public ResponseEntity<ChoreDto> updateChore(@ApiParam(value = "The chore to update", required = true)
                                          @RequestBody ChoreDto choreDto) {
 
+        log.info("Update Chore: {}", choreDto);
         Chore updatedChore = choreService.updateChore(choreTranslator.toEntity(choreDto));
         return ResponseEntity.ok(choreTranslator.toDto(updatedChore));
     }
@@ -95,7 +98,7 @@ public class ChoreController {
             @ApiResponse(code = 204, message = "Chore was deleted successfully")})
     @DeleteMapping("/{id}")
     public ResponseEntity deleteChore(@ApiParam(value = "The choreId to delete", required = true)
-                               @PathVariable("id") String id) {
+                               @PathVariable("id") Integer id) {
 
         choreService.deleteChore(id);
         return ResponseEntity.noContent().build();

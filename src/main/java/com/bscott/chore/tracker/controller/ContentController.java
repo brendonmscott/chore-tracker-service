@@ -78,7 +78,7 @@ public class ContentController {
             @ApiResponse(code = 204, message = "Banner Message was deleted successfully")})
     @DeleteMapping("/banner/messages/{id}")
     public ResponseEntity deleteBannerMessage(@ApiParam(value = "The bannerMessageId to delete", required = true)
-                                       @PathVariable("id") String id) {
+                                       @PathVariable("id") Integer id) {
 
         contentService.deleteBannerMessage(id);
         return ResponseEntity.noContent().build();

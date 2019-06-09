@@ -9,12 +9,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class UserDto {
 
-    private String id;
+    private Integer id;
     @NotBlank
     private String firstName;
     @NotBlank
@@ -23,7 +22,7 @@ public class UserDto {
     @Past
     private String birthDate;
     @NotEmpty
-    private Set<String> roles;
+    private List<RoleDto> roles;
     private List<UserDto> familyMembers;
     @NotEmpty
     @Email

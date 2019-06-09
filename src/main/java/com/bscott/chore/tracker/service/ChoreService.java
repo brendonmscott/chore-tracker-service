@@ -1,32 +1,41 @@
 package com.bscott.chore.tracker.service;
 
 import com.bscott.chore.tracker.domain.Chore;
+import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.repository.ChoreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ChoreService {
 
-    @Autowired
     private ChoreRepository choreRepository;
+    private UserService userService;
 
-    public Chore findChore(String choreId) {
+    @Inject
+    public ChoreService(ChoreRepository choreRepository, UserService userService) {
+        this.choreRepository = choreRepository;
+        this.userService = userService;
+    }
+
+    public Chore findChore(Integer choreId) {
 
         Optional<Chore> chore = choreRepository.findById(choreId);
 
         return chore.orElse(null);
     }
 
-    public List<Chore> getChores(String assigneeId) {
+    public List<Chore> getChores(Integer assigneeId) {
 
         List<Chore> chores;
 
+        User assignee = userService.findUserById(assigneeId);
+
         if (assigneeId != null) {
-            chores = choreRepository.findChoresByAssigneeId(assigneeId);
+            chores = choreRepository.findChoresByAssigneesEquals(assignee);
         } else {
             chores = choreRepository.findAll();
         }
@@ -50,7 +59,7 @@ public class ChoreService {
         return updatedChore;
     }
 
-    public void deleteChore(String id) {
+    public void deleteChore(Integer id) {
         choreRepository.deleteById(id);
     }
 }

@@ -1,0 +1,46 @@
+app:
+  jwtExpirationInMs: 604800000
+  jwtSecret: JWTSuperSecretKey
+
+server:
+  port: ${PORT:8380}
+
+spring:
+
+  flyway:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    user: sa
+    password:
+    schemas: PUBLIC
+    locations: classpath:db/migration
+
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    platform: h2
+    driverClassName: org.h2.Driver
+#    type: org.apache.tomcat.jdbc.pool.DataSource
+
+  h2:
+    console:
+      enabled: false
+      path: /h2console
+      settings:
+        trace: false
+        web-allow-others: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+        generate_statistics: false
+        show_sql: false
+        use_sql_comments: false
+  session:
+    store-type: jdbc

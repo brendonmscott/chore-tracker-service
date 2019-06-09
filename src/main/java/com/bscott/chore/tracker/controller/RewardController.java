@@ -80,7 +80,7 @@ public class RewardController {
             @ApiResponse(code = 204, message = "Reward was deleted successfully")})
     @DeleteMapping("/{id}")
     public ResponseEntity deleteReward(@ApiParam(value = "The rewardId to delete", required = true)
-                                @PathVariable("id") String id) {
+                                @PathVariable("id") Integer id) {
 
         rewardService.deleteReward(id);
         return ResponseEntity.noContent().build();

@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,7 +19,9 @@ public class SignUpRequestDto {
     @NotNull
     private String birthDate;
     @NotEmpty
-    private String userName;
+    private String username;
+    @NotEmpty
+    private List<RoleDto> roles;
     @NotNull
     private CredentialsDto credentials;
 

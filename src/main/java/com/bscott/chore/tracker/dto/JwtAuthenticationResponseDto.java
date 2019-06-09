@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class JwtAuthenticationResponseDto {
 
-    private String id;
+    private Integer id;
     private String accessToken;
     private String tokenType = "Bearer";
 
-    public JwtAuthenticationResponseDto(String userId, String accessToken) {
+    public JwtAuthenticationResponseDto(Integer userId, String accessToken) {
         this.id = userId;
         this.accessToken = accessToken;
     }

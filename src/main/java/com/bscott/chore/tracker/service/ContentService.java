@@ -14,7 +14,7 @@ public class ContentService {
     @Autowired
     private BannerMessageRepository bannerMessageRepository;
 
-    public BannerMessage findBannerMessageById(String id){
+    public BannerMessage findBannerMessageById(Integer id){
         Optional<BannerMessage> bannerMessage = bannerMessageRepository.findById(id);
         return bannerMessage.orElse(null);
     }
@@ -38,7 +38,7 @@ public class ContentService {
         return bannerMessage;
     }
 
-    public void deleteBannerMessage(String id) {
+    public void deleteBannerMessage(Integer id) {
         bannerMessageRepository.deleteById(id);
     }
 }

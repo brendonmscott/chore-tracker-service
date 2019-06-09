@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BannerMessageDto {
 
-    private String id;
+    private Integer id;
     private String headlineOne;
     private String headlineOneText;
     private String headlineTwo;

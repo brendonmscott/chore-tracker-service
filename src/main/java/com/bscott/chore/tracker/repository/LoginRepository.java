@@ -1,9 +1,9 @@
 package com.bscott.chore.tracker.repository;
 
 import com.bscott.chore.tracker.domain.LoginCredentials;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoginRepository extends MongoRepository<LoginCredentials, String> {
+public interface LoginRepository extends JpaRepository<LoginCredentials, Integer> {
 
     LoginCredentials findByEmailAndPassword(String email, String password);
 }

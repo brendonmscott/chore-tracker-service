@@ -8,10 +8,25 @@ server:
 spring:
   profiles:
     active: "dev"
-  data:
-    mongodb:
-      host: mongo
-      database: chore_tracker
+
+  flyway:
+    url: jdbc:mysql://mysql:3306/chore_tracker?useSSL=false&serverTimezone=UTC
+    user: root
+    password: GreenLantern1!
+    schemas: chore_tracker
+    locations: classpath:db/migration
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/chore_tracker?useSSL=false&serverTimezone=UTC
+    username: root
+    password: GreenLantern1!
+    driverClassName: com.mysql.jdbc.Driver
+
+  jpa:
+    show-sql: false
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      ddl-auto: validate
 
 # Expose actuator endpoints
 management:
