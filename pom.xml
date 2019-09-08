@@ -171,6 +171,11 @@
          <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
+            <!-- For Debugging -->
+<!--            <configuration>-->
+<!--               <excludeDevtools>false</excludeDevtools>-->
+<!--               <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</jvmArguments>-->
+<!--            </configuration>-->
          </plugin>
          <!-- runs a checkstyle report and fails the build if any violations -->
          <plugin>

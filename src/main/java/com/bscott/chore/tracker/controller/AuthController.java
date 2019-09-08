@@ -5,6 +5,7 @@ import com.bscott.chore.tracker.dto.ApiResponse;
 import com.bscott.chore.tracker.dto.JwtAuthenticationResponseDto;
 import com.bscott.chore.tracker.dto.CredentialsDto;
 import com.bscott.chore.tracker.dto.SignUpRequestDto;
+import com.bscott.chore.tracker.repository.LoginRepository;
 import com.bscott.chore.tracker.repository.UserRepository;
 import com.bscott.chore.tracker.security.JwtTokenProvider;
 import com.bscott.chore.tracker.security.UserPrincipal;
@@ -38,6 +39,9 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
+    private LoginRepository loginRepository;
+
+    @Autowired
     private RegistrationTranslator registrationTranslator;
 
     @Autowired
@@ -63,12 +67,12 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequest) {
 
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (loginRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getCredentials().getEmail())) {
+        if (loginRepository.existsByEmail(signUpRequest.getCredentials().getEmail())) {
             return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -77,7 +81,7 @@ public class AuthController {
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users" + "?" + "username={username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                .buildAndExpand(result.getLoginCredentials().getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(Boolean.TRUE, "User registered successfully"));
     }

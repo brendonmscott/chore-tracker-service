@@ -21,7 +21,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserTranslatorTest {
@@ -55,7 +54,7 @@ public class UserTranslatorTest {
         userRoleDto = new RoleDto();
         userRoleDto.setName("user");
 
-        when(passwordEncoder.encode("password1")).thenReturn("EncodedPassword1");
+//        when(passwordEncoder.encode("password1")).thenReturn("EncodedPassword1");
     }
 
     @Test
@@ -162,7 +161,7 @@ public class UserTranslatorTest {
         userDto.setBirthDate("2016-04-09");
         userDto.setMoneyEarned(BigDecimal.ZERO);
         userDto.setPointsEarned(100);
-        userDto.setPassword("password1");
+//        userDto.setPassword("password1");
 
         userDto.setRoles(new ArrayList<>());
         userDto.getRoles().add(adminRoleDto);
@@ -175,7 +174,7 @@ public class UserTranslatorTest {
         assertEquals(userDto.getBirthDate(), user.getBirthDate().toString());
         assertEquals(userDto.getMoneyEarned(), user.getMoneyEarned());
         assertEquals(userDto.getPointsEarned(), user.getPointsEarned());
-        assertEquals("EncodedPassword1", userDto.getPassword());
+//        assertEquals("EncodedPassword1", userDto.getPassword());
         assertEquals(2, user.getRoles().size());
         assertEquals("admin", user.getRoles().get(0).getName());
         assertEquals("user", user.getRoles().get(1).getName());
@@ -203,7 +202,7 @@ public class UserTranslatorTest {
         assertEquals(registerUserDto.getEmail(), loginCredentials.getEmail());
         assertEquals(registerUserDto.getPassword(), loginCredentials.getPassword());
         assertNull(loginCredentials.getId());
-        assertNull(loginCredentials.getUserId());
+        assertNull(loginCredentials.getUsername());
     }
 
     @Test

@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS chore_assignees (
 
 CREATE TABLE IF NOT EXISTS login_credentials (
     id INTEGER AUTO_INCREMENT,
-    user_id VARCHAR(50) NOT NULL,
+    user_id INTEGER,
+    username VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
@@ -56,9 +57,7 @@ CREATE TABLE IF NOT EXISTS user (
     birth_date VARCHAR(10) NOT NULL,
     points_earned INTEGER,
     money_earned DECIMAL(19,2),
-    email VARCHAR(50) NOT NULL,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    login_credentials_id INTEGER,
     PRIMARY KEY (id)
 ) ENGINE=INNODB;
 

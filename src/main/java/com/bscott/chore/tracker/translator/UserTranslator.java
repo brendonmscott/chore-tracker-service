@@ -58,10 +58,10 @@ public class UserTranslator extends ConfigurableMapper {
     }
 
     public User toEntity(UserDto dto) {
-
-        if (dto != null && dto.getPassword() != null) {
-            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        }
+//
+//        if (dto != null && dto.getPassword() != null) {
+//            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+//        }
 
         return mapper.map(dto, User.class);
     }

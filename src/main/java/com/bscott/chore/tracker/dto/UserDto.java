@@ -29,8 +29,6 @@ public class UserDto {
     private String email;
     @NotEmpty
     private String username;
-    @NotEmpty
-    private String password;
     private Integer pointsEarned;
     private BigDecimal moneyEarned;
 }

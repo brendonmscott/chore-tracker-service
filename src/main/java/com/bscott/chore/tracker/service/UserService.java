@@ -1,12 +1,13 @@
 package com.bscott.chore.tracker.service;
 
+import com.bscott.chore.tracker.domain.LoginCredentials;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.exception.NullEntityException;
 import com.bscott.chore.tracker.exception.UserNotFoundException;
+import com.bscott.chore.tracker.repository.LoginRepository;
 import com.bscott.chore.tracker.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LoginRepository loginRepository;
 
     public User findUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
@@ -26,14 +29,10 @@ public class UserService {
 
     public User findUser(String username, String email) {
 
-        User u = new User();
-        u.setUsername(username);
-        u.setEmail(email);
+        LoginCredentials loginCredentials = loginRepository.findByUsernameOrEmail(username, email)
+                .orElseThrow(() -> new UserNotFoundException(username, email));
 
-        log.info("User to query: {}", u);
-        Optional<User> user = userRepository.findOne(Example.of(u));
-
-        return user.orElse(null);
+        return loginCredentials.getUser();
     }
 
     public User addUser(User user) {

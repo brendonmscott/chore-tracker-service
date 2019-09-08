@@ -46,27 +46,8 @@ logging:
       org.springframework: INFO
       org.hibernate: INFO
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${DISCOVERY_URL:http://localhost:8761}/eureka/
-  instance:
-    hostname: chore-tracker-service
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
-    metadata-map:
-      startup: ${random.int}    #needed to trigger info and endpoint update after restart
-
-ribbon:
-  eureka:
-    enabled: true
-
 ---
 
 spring:
   profiles: dev
-
-logging:
-  level:
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 

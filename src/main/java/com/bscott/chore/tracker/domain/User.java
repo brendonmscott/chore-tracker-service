@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Email;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -43,16 +43,10 @@ public class User {
     private Integer pointsEarned;
     @Column
     private BigDecimal moneyEarned;
-    @NotEmpty
-    @Email
-    @Column
-    private String email;
-    @NotEmpty
-    @Column
-    private String username;
-    @NotEmpty
-    @Column
-    private String password;
+
+    @OneToOne
+    private LoginCredentials loginCredentials;
+
     @OneToMany
     @JoinTable(joinColumns = @JoinColumn(
                     name = "user_id",
@@ -62,6 +56,7 @@ public class User {
                     referencedColumnName = "id")
     )
     private List<Role> roles;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(joinColumns = @JoinColumn(
                     name = "user_id",
@@ -80,9 +75,13 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setUsername(username);
+        loginCredentials.setEmail(email);
+        loginCredentials.setPassword(password);
+
+        this.setLoginCredentials(loginCredentials);
     }
 
     public String getName() {
