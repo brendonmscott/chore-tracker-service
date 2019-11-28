@@ -194,15 +194,14 @@ public class UserTranslatorTest {
         registerUserDto.setFirstName("Brendon");
         registerUserDto.setLastName("Scott");
         registerUserDto.setBirthDate("1975-12-19");
-        registerUserDto.setEmail("brendonscott@invalid.com");
+        registerUserDto.setUsername("brendonscott@invalid.com");
         registerUserDto.setPassword("password");
 
         LoginCredentials loginCredentials = userTranslator.getLoginCredentials(registerUserDto);
 
-        assertEquals(registerUserDto.getEmail(), loginCredentials.getEmail());
+        assertEquals(registerUserDto.getUsername(), loginCredentials.getUsername());
         assertEquals(registerUserDto.getPassword(), loginCredentials.getPassword());
         assertNull(loginCredentials.getId());
-        assertNull(loginCredentials.getUsername());
     }
 
     @Test

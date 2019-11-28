@@ -21,11 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String usernameOrEmail) {
+    public UserDetails loadUserByUsername(String username) {
 
         // Let people login with either username or email
-        LoginCredentials loginCredentials = loginRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
+        LoginCredentials loginCredentials = loginRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username)
         );
 
         return UserPrincipal.create(loginCredentials.getUser());

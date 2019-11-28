@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -24,10 +23,6 @@ public class LoginCredentials {
     @Column
     @NotEmpty
     private String username;
-    @Column
-    @NotEmpty
-    @Email
-    private String email;
     @Column
     @NotEmpty
     private String password;

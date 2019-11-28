@@ -60,11 +60,9 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UserDto> findUser(
             @ApiParam(value = "The username of the User to find")
-            @RequestParam(value = "username", required = false) String username,
-            @ApiParam(value = "The email of the User to find")
-            @RequestParam(value = "email", required = false) String email) {
+            @RequestParam(value = "username", required = false) String username) {
 
-        User user = userService.findUser(username, email);
+        User user = userService.findUser(username);
         log.info("User found by query: {}", user);
 
         if (user == null) {
@@ -72,18 +70,6 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userTranslator.toDto(user));
-    }
-
-    @ApiOperation(value = "Add a user")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User was added successfully")})
-    @Valid
-    @PostMapping
-    public ResponseEntity<UserDto> addUser(@ApiParam(value = "The user to add", required = true)
-                                       @RequestBody UserDto userDto) {
-
-        User newUser = userService.addUser(userTranslator.toEntity(userDto));
-        return ResponseEntity.ok(userTranslator.toDto(newUser));
     }
 
     @ApiOperation(value = "Add a family member")

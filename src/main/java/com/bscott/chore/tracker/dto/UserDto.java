@@ -22,13 +22,13 @@ public class UserDto {
     @Past
     private String birthDate;
     @NotEmpty
-    private List<RoleDto> roles;
-    private List<UserDto> familyMembers;
-    @NotEmpty
     @Email
     private String email;
     @NotEmpty
-    private String username;
+    private List<RoleDto> roles;
+    private List<UserDto> familyMembers;
     private Integer pointsEarned;
     private BigDecimal moneyEarned;
+    @NotNull
+    private CredentialsDto loginCredentials;
 }

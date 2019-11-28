@@ -5,13 +5,11 @@ import com.bscott.chore.tracker.dto.ApiResponse;
 import com.bscott.chore.tracker.dto.JwtAuthenticationResponseDto;
 import com.bscott.chore.tracker.dto.CredentialsDto;
 import com.bscott.chore.tracker.dto.SignUpRequestDto;
-import com.bscott.chore.tracker.repository.LoginRepository;
-import com.bscott.chore.tracker.repository.UserRepository;
 import com.bscott.chore.tracker.security.JwtTokenProvider;
 import com.bscott.chore.tracker.security.UserPrincipal;
+import com.bscott.chore.tracker.service.UserService;
 import com.bscott.chore.tracker.translator.RegistrationTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,10 +34,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private LoginRepository loginRepository;
+    private UserService userService;
 
     @Autowired
     private RegistrationTranslator registrationTranslator;
@@ -52,7 +47,7 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
+                        loginRequest.getUsername(),
                         loginRequest.getPassword()
                 )
         );
@@ -67,21 +62,11 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequest) {
 
-        if (loginRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        if (loginRepository.existsByEmail(signUpRequest.getCredentials().getEmail())) {
-            return new ResponseEntity<>(new ApiResponse(Boolean.FALSE, "Email Address already in use!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        User result = userRepository.save(registrationTranslator.toEntity(signUpRequest));
+        User registeredUser = userService.registerNewUser(registrationTranslator.toEntity(signUpRequest));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users" + "?" + "username={username}")
-                .buildAndExpand(result.getLoginCredentials().getUsername()).toUri();
+                .buildAndExpand(registeredUser.getLoginCredentials().getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(Boolean.TRUE, "User registered successfully"));
     }

@@ -73,7 +73,7 @@ public class UserTranslator extends ConfigurableMapper {
         }
 
         LoginCredentials loginCredentials = new LoginCredentials();
-        loginCredentials.setEmail(registerUserDto.getEmail());
+        loginCredentials.setUsername(registerUserDto.getUsername());
         loginCredentials.setPassword(registerUserDto.getPassword());
 
         return loginCredentials;

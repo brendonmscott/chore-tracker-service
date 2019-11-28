@@ -7,8 +7,7 @@ import java.util.Optional;
 
 public interface LoginRepository extends JpaRepository<LoginCredentials, Integer> {
 
-    LoginCredentials findByEmailAndPassword(String email, String password);
-    Optional<LoginCredentials> findByUsernameOrEmail(String username, String email);
-    Boolean existsByUsername(String username);
-    Boolean existsByEmail(String email);
+    LoginCredentials findByUsernameAndPassword(String username, String password);
+    Optional<LoginCredentials> findByUsername(String username);
+    boolean existsByUsername(String username);
 }

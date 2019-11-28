@@ -1,6 +1,8 @@
 package com.bscott.chore.tracker.translator;
 
+import com.bscott.chore.tracker.domain.LoginCredentials;
 import com.bscott.chore.tracker.domain.User;
+import com.bscott.chore.tracker.dto.CredentialsDto;
 import com.bscott.chore.tracker.dto.SignUpRequestDto;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -26,9 +28,12 @@ public class RegistrationTranslator extends ConfigurableMapper {
 
         factory.getConverterFactory().registerConverter(new LocalDateConverter());
 
+        factory.classMap(LoginCredentials.class, CredentialsDto.class)
+                .byDefault()
+                .register();
+
         factory.classMap(User.class, SignUpRequestDto.class)
-                .field("email", "credentials.email")
-                .field("password", "credentials.password")
+                .field("loginCredentials", "credentials")
                 .byDefault()
                 .register();
 

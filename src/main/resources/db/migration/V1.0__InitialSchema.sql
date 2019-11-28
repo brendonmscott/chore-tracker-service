@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS login_credentials (
     id INTEGER AUTO_INCREMENT,
     user_id INTEGER,
     username VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=INNODB;
@@ -55,6 +54,7 @@ CREATE TABLE IF NOT EXISTS user (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     birth_date VARCHAR(10) NOT NULL,
+    email VARCHAR(50),
     points_earned INTEGER,
     money_earned DECIMAL(19,2),
     login_credentials_id INTEGER,

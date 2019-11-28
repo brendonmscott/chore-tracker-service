@@ -3,9 +3,9 @@ package com.bscott.chore.tracker.service;
 import com.bscott.chore.tracker.domain.Chore;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.repository.ChoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ public class ChoreService {
     private ChoreRepository choreRepository;
     private UserService userService;
 
-    @Inject
+    @Autowired
     public ChoreService(ChoreRepository choreRepository, UserService userService) {
         this.choreRepository = choreRepository;
         this.userService = userService;
