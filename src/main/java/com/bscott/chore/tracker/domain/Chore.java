@@ -14,7 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,11 +31,18 @@ public class Chore {
     private String name;
     @Column
     private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Frequency frequency;
+    @Column(columnDefinition = "DATE")
+    private LocalDate expireDate;
     @Column
-    @NotNull
-    private FrequencyType frequency;
+    private boolean completed;
+    @Column
+    private boolean approved;
     @OneToOne(cascade = CascadeType.ALL)
     private Reward reward;
+    @Column
+    private Integer ownerId;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(joinColumns = @JoinColumn(
                     name = "chore_id",

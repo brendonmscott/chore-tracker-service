@@ -52,13 +52,9 @@ public class ChoreServiceTest {
 
         when(userService.findUserById(anyInt())).thenReturn(null);
 
-        when(choreRepository.findAll()).thenReturn(chores);
-        chores.add(choreOne);
-        chores.add(choreTwo);
+        List<Chore> chores = choreService.getChoresByAssignee(null);
 
-        List<Chore> chores = choreService.getChores(null);
-
-        assertEquals(2, chores.size());
+        assertEquals(0, chores.size());
     }
 
     @Test
@@ -69,7 +65,7 @@ public class ChoreServiceTest {
         when(choreRepository.findChoresByAssigneesEquals(user)).thenReturn(chores);
         chores.add(choreOne);
 
-        List<Chore> chores = choreService.getChores(1);
+        List<Chore> chores = choreService.getChoresByAssignee(1);
 
         assertEquals(1, chores.size());
     }

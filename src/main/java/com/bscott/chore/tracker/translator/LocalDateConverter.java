@@ -9,11 +9,13 @@ public class LocalDateConverter extends BidirectionalConverter<LocalDate, String
 
    @Override
    public String convertTo(LocalDate source, Type<String> destinationType) {
-      return source.toString();
+
+      return source == null ? null : source.toString();
    }
 
    @Override
    public LocalDate convertFrom(String source, Type<LocalDate> destinationType) {
-      return LocalDate.parse(source);
+
+      return source == null ? null : LocalDate.parse(source);
    }
 }

@@ -28,19 +28,16 @@ public class ChoreService {
         return chore.orElse(null);
     }
 
-    public List<Chore> getChores(Integer assigneeId) {
-
-        List<Chore> chores;
+    public List<Chore> getChoresByAssignee(Integer assigneeId) {
 
         User assignee = userService.findUserById(assigneeId);
 
-        if (assigneeId != null) {
-            chores = choreRepository.findChoresByAssigneesEquals(assignee);
-        } else {
-            chores = choreRepository.findAll();
-        }
+        return choreRepository.findChoresByAssigneesEquals(assignee);
+    }
 
-        return chores;
+    public List<Chore> getChoresByOwner(Integer ownerId) {
+
+        return choreRepository.findChoresByOwnerId(ownerId);
     }
 
     public Chore addChore(Chore chore) {

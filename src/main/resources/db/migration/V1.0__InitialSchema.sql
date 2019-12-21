@@ -19,8 +19,12 @@ CREATE TABLE IF NOT EXISTS chore (
     id INTEGER AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255),
-    frequency INTEGER NOT NULL,
+    expire_date DATE,
+    completed BOOLEAN,
+    approved BOOLEAN,
+    frequency_id INTEGER,
     reward_id INTEGER,
+    owner_id INTEGER NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=INNODB;
 
@@ -78,6 +82,19 @@ CREATE TABLE IF NOT EXISTS user_roles (
 CREATE TABLE IF NOT EXISTS role (
     id INTEGER AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS frequency (
+    id INTEGER AUTO_INCREMENT,
+    type VARCHAR(255) NOT NULL,
+    monday BOOLEAN,
+    tuesday BOOLEAN,
+    wednesday BOOLEAN,
+    thursday BOOLEAN,
+    friday BOOLEAN,
+    saturday BOOLEAN,
+    sunday BOOLEAN,
     PRIMARY KEY (id)
 ) ENGINE=INNODB;
 

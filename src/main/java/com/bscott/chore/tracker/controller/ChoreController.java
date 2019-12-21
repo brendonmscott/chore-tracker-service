@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -54,14 +53,30 @@ public class ChoreController {
 
         return ResponseEntity.ok(choreTranslator.toDto(chore));    }
 
-    @ApiOperation(value = "Get Chores")
+    @ApiOperation(value = "Get Chores by Assignee")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Chores were retrieved successfully")})
-    @GetMapping
-    public ResponseEntity<List<ChoreDto>> findChores(@ApiParam(name="assigneeId")
-                                              @RequestParam(value = "assigneeId", required = false) Integer assigneeId) {
+    @GetMapping("/assignee/{assigneeId}")
+    public ResponseEntity<List<ChoreDto>> findChoresByAssignee(@ApiParam(name="assigneeId", required = true)
+                                              @PathVariable(value = "assigneeId") Integer assigneeId) {
 
-        List<Chore> chores = choreService.getChores(assigneeId);
+        List<Chore> chores = choreService.getChoresByAssignee(assigneeId);
+
+        if (chores == null) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok(choreTranslator.toDtos(chores));
+    }
+
+    @ApiOperation(value = "Get Chores by Owner")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Chores were retrieved successfully")})
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<List<ChoreDto>> findChoresByOwner(@ApiParam(name="ownerId", required = true)
+                                                               @PathVariable(value = "ownerId") Integer ownerId) {
+
+        List<Chore> chores = choreService.getChoresByOwner(ownerId);
 
         if (chores == null) {
             return ResponseEntity.ok(new ArrayList<>());

@@ -11,4 +11,5 @@ public interface ChoreRepository extends JpaRepository<Chore, Integer> {
 
     Optional<Chore> findById(Integer id);
     List<Chore> findChoresByAssigneesEquals(User assignee);
+    List<Chore> findChoresByOwnerId(Integer ownerId);
 }
