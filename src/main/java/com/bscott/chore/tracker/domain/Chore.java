@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class Chore {
     private boolean completed;
     @Column
     private boolean approved;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Reward reward;
+    @Column
+    private BigDecimal monetaryValue;
     @Column
     private Integer ownerId;
     @OneToMany(cascade = CascadeType.ALL)

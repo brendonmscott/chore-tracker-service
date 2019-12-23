@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ChoreDto {
     private LocalDate expireDate;
     private boolean completed;
     private boolean approved;
-    private RewardDto reward;
+    private BigDecimal monetaryValue;
     @NotEmpty
     private Integer ownerId;
 
