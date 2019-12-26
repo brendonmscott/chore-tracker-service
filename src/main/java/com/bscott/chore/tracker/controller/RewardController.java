@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -37,13 +36,44 @@ public class RewardController {
     @Autowired
     private RewardTranslator rewardTranslator;
 
-    @ApiOperation(value = "Get Rewards")
+    @ApiOperation(value = "Get a reward by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Reward was retrieved successfully")})
+    @GetMapping("/{id}")
+    public ResponseEntity getReward(@ApiParam(value = "The rewardId to find", required = true)
+                                   @PathVariable("id") Integer id) {
+
+        Reward reward = rewardService.findReward(id);
+
+        if (reward == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(rewardTranslator.toDto(reward));
+    }
+
+    @ApiOperation(value = "Get Rewards by Owner")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Rewards were retrieved successfully")})
-    @GetMapping
-    public ResponseEntity<List<RewardDto>> findRewards(@ApiParam(name = "type") @RequestParam("type") String type) {
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<List<RewardDto>> findRewardsByOwner(@ApiParam(name = "type") @PathVariable("ownerId") Integer ownerId) {
 
-        List<Reward> rewards = rewardService.getRewards(type);
+        List<Reward> rewards = rewardService.getRewardsByOwner(ownerId);
+
+        if (rewards == null) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+
+        return ResponseEntity.ok(rewardTranslator.toDtos(rewards));
+    }
+
+    @ApiOperation(value = "Get Rewards by Assignee")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Rewards were retrieved successfully")})
+    @GetMapping("/assignee/{assigneeId}")
+    public ResponseEntity<List<RewardDto>> findRewardsByAssignee(@ApiParam(name = "type") @PathVariable("assigneeId") Integer assigneeId) {
+
+        List<Reward> rewards = rewardService.getRewardsByAssignee(assigneeId);
 
         if (rewards == null) {
             return ResponseEntity.ok(new ArrayList<>());

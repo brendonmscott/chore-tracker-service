@@ -51,7 +51,8 @@ public class ChoreController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(choreTranslator.toDto(chore));    }
+        return ResponseEntity.ok(choreTranslator.toDto(chore));
+    }
 
     @ApiOperation(value = "Get Chores by Assignee")
     @ApiResponses(value = {
