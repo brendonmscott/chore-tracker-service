@@ -8,29 +8,33 @@ image: maven:3.6.1
 pipelines:
   default:
     - step:
+        name: Run Maven Build
         caches:
           - maven
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
     - step:
-        script:
-          - ls
-          - cd ..
-          - ls
-          - docker-compose down
-    - step:
         name: Deploy to Hostinger
         deployment: Hostinger
         script:
+          - pipe: atlassian/ssh-run:0.2.3
+            variables:
+              SSH_USER: 'root'
+              SERVER: '83.136.219.229'
+              COMMAND: 'cd ~/chore-tracker'
+          - pipe: atlassian/ssh-run:0.2.3
+            variables:
+              SSH_USER: 'root'
+              SERVER: '83.136.219.229'
+              COMMAND: 'docker-compose down'
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
                USER: 'root'
                SERVER: '83.136.219.229'
                REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
                LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/*.jar'
-                # SSH_KEY: '<string>' # Optional.
-                # EXTRA_ARGS: '<string>' # Optional.
-                # DEBUG: '<boolean>' # Optional.
-    - step:
-        script:
-          - DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach
+          - pipe: atlassian/ssh-run:0.2.3
+            variables:
+               SSH_USER: 'root'
+               SERVER: '83.136.219.229'
+               COMMAND: 'DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach'
