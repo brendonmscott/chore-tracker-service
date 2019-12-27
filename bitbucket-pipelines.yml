@@ -16,7 +16,7 @@ pipelines:
         name: Deploy to Hostinger
         deployment: Hostinger
         script:
-          - cd chore-tracker
+          - cd ~/chore-tracker
           - docker-compose down
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
