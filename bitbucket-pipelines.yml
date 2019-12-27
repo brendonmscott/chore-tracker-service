@@ -12,3 +12,12 @@ pipelines:
           - maven
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
+          - pipe: atlassian/scp-deploy:0.3.8
+              variables:
+                USER: 'root'
+                SERVER: '83.136.219.229'
+                REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
+                LOCAL_PATH: 'target/chore-tracker-service-1.0.0-SNAPSHOT.jar'
+                # SSH_KEY: '<string>' # Optional.
+                # EXTRA_ARGS: '<string>' # Optional.
+                # DEBUG: '<boolean>' # Optional.
