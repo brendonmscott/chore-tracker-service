@@ -15,7 +15,8 @@ pipelines:
     - step:
         script:
           - ls
-          - cd ~/chore-tracker
+          - cd ..
+          - ls
           - docker-compose down
     - step:
         name: Deploy to Hostinger
