@@ -21,12 +21,7 @@ pipelines:
             variables:
               SSH_USER: 'root'
               SERVER: '83.136.219.229'
-              COMMAND: 'cd ~/chore-tracker'
-          - pipe: atlassian/ssh-run:0.2.3
-            variables:
-              SSH_USER: 'root'
-              SERVER: '83.136.219.229'
-              COMMAND: 'docker-compose down'
+              COMMAND: '(cd ~/chore-tracker; docker-compose down)'
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
                USER: 'root'
@@ -37,4 +32,4 @@ pipelines:
             variables:
                SSH_USER: 'root'
                SERVER: '83.136.219.229'
-               COMMAND: 'DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach'
+               COMMAND: '(cd ~/chore-tracker; DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach)'
