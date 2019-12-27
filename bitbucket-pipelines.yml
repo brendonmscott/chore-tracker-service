@@ -27,7 +27,7 @@ pipelines:
                USER: 'root'
                SERVER: '83.136.219.229'
                REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
-               LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/*.jar'
+               LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/*'
           - pipe: atlassian/ssh-run:0.2.3
             variables:
                SSH_USER: 'root'
