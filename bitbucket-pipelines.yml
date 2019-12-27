@@ -21,7 +21,7 @@ pipelines:
                USER: 'root'
                SERVER: '83.136.219.229'
                REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
-               LOCAL_PATH: 'build/*'
+               LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/*'
                 # SSH_KEY: '<string>' # Optional.
                 # EXTRA_ARGS: '<string>' # Optional.
                 # DEBUG: '<boolean>' # Optional.
