@@ -13,12 +13,14 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
     - step:
-        name: Deploy to Hostinger
-        deployment: Hostinger
         script:
           - ls
           - cd ~/chore-tracker
           - docker-compose down
+    - step:
+        name: Deploy to Hostinger
+        deployment: Hostinger
+        script:
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
                USER: 'root'
@@ -28,4 +30,6 @@ pipelines:
                 # SSH_KEY: '<string>' # Optional.
                 # EXTRA_ARGS: '<string>' # Optional.
                 # DEBUG: '<boolean>' # Optional.
+    - step:
+        script:
           - DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach
