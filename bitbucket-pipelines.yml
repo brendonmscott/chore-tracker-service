@@ -13,7 +13,7 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
     - step:
-        name: Deploy to production
+        name: Deploy to Hostinger
         deployment: Hostinger
         script:
           - pipe: atlassian/scp-deploy:0.3.8
@@ -21,7 +21,7 @@ pipelines:
                USER: 'root'
                SERVER: '83.136.219.229'
                REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
-               LOCAL_PATH: 'target/chore-tracker-service-1.0.0-SNAPSHOT.jar'
+               LOCAL_PATH: 'build/target/chore-tracker-service-1.0.0-SNAPSHOT.jar'
                 # SSH_KEY: '<string>' # Optional.
                 # EXTRA_ARGS: '<string>' # Optional.
                 # DEBUG: '<boolean>' # Optional.
