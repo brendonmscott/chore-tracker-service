@@ -14,10 +14,11 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
         artifacts:
-          - target/**
+          - target/*.jar
     - step:
         name: Deploy to Hostinger
         deployment: Hostinger
+        size: 2x
         script:
           - pipe: atlassian/ssh-run:0.2.3
             variables:
