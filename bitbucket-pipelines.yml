@@ -14,25 +14,26 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
         artifacts:
-          - target/*.jar
+          - target/chore-tracker-*.jar
     - step:
         name: Deploy to Hostinger
         deployment: Hostinger
         size: 2x
         script:
+          - echo "Deploying Chore Tracker Application"
           - pipe: atlassian/ssh-run:0.2.3
             variables:
               SSH_USER: 'root'
               SERVER: '83.136.219.229'
-              COMMAND: '(cd ~/chore-tracker; docker-compose down)'
+              COMMAND: 'systemctl stop chore-tracker-service'
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
                USER: 'root'
                SERVER: '83.136.219.229'
-               REMOTE_PATH: '~/chore-tracker/chore-tracker-service/target'
-               LOCAL_PATH: 'target/*'
+               REMOTE_PATH: '/opt/chore-tracker/service/chore-tracker-service.jar'
+               LOCAL_PATH: 'target/chore-tracker-service-*.jar'
           - pipe: atlassian/ssh-run:0.2.3
-            variables:
-               SSH_USER: 'root'
-               SERVER: '83.136.219.229'
-               COMMAND: '(cd ~/chore-tracker; DBPATH=~/chore-tracker/mysql docker-compose up --build --force-recreate --detach)'
+              variables:
+                SSH_USER: 'root'
+                SERVER: '83.136.219.229'
+                COMMAND: 'systemctl start chore-tracker-service'

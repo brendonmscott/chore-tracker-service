@@ -10,14 +10,14 @@ spring:
     active: "dev"
 
   flyway:
-    url: jdbc:mysql://mysql:3306/chore_tracker?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/chore_tracker?useSSL=false&serverTimezone=UTC
     user: root
     password: GreenLantern1!
     schemas: chore_tracker
     locations: classpath:db/migration
 
   datasource:
-    url: jdbc:mysql://mysql:3306/chore_tracker?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/chore_tracker?useSSL=false&serverTimezone=UTC
     username: root
     password: GreenLantern1!
     driverClassName: com.mysql.jdbc.Driver
