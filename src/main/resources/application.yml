@@ -39,6 +39,7 @@ management:
       show-details: ALWAYS
 
 logging:
+    file: ~/chore-tracker/service/logs
     pattern:
       file: "%-5level - %replace(%msg){'[\r\n]', ''}%n"
       console: "%-5level - %replace(%msg){'[\r\n]', ''}%n"

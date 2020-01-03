@@ -21,11 +21,11 @@ pipelines:
         size: 2x
         script:
           - echo "Deploying Chore Tracker Application"
-#          - pipe: atlassian/ssh-run:0.2.3
-#            variables:
-#              SSH_USER: 'root'
-#              SERVER: '83.136.219.229'
-#              COMMAND: 'systemctl stop chore-tracker-service'
+          - pipe: atlassian/ssh-run:0.2.3
+            variables:
+              SSH_USER: 'root'
+              SERVER: '83.136.219.229'
+              COMMAND: 'systemctl stop chore-tracker-service'
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
               USER: 'root'
