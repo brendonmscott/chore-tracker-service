@@ -28,12 +28,12 @@ pipelines:
               COMMAND: 'systemctl stop chore-tracker-service'
           - pipe: atlassian/scp-deploy:0.3.8
             variables:
-               USER: 'root'
-               SERVER: '83.136.219.229'
-               REMOTE_PATH: '/opt/chore-tracker/service/chore-tracker-service.jar'
-               LOCAL_PATH: 'target/chore-tracker-service-*.jar'
+              USER: 'root'
+              SERVER: '83.136.219.229'
+              REMOTE_PATH: '/opt/chore-tracker/service/chore-tracker-service.jar'
+              LOCAL_PATH: 'target/chore-tracker-service-*.jar'
           - pipe: atlassian/ssh-run:0.2.3
-              variables:
-                SSH_USER: 'root'
-                SERVER: '83.136.219.229'
-                COMMAND: 'systemctl start chore-tracker-service'
+            variables:
+              SSH_USER: 'root'
+              SERVER: '83.136.219.229'
+              COMMAND: 'systemctl start chore-tracker-service'
