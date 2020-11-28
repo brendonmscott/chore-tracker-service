@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -45,10 +44,9 @@ public class User {
     @Column
     private Integer pointsEarned;
     @Column
-    private BigDecimal moneyEarned;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private LoginCredentials loginCredentials;
+    private BigDecimal wallet;
+    @Column
+    private BigDecimal savings;
 
     @OneToMany
     @JoinTable(joinColumns = @JoinColumn(
@@ -74,17 +72,11 @@ public class User {
     public User(){
     }
 
-    public User(String firstName, String lastName, LocalDate birthDate, String username, String email, String password) {
+    public User(String firstName, String lastName, LocalDate birthDate, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
-
-        LoginCredentials loginCreds = new LoginCredentials();
-        loginCreds.setUsername(username);
-        loginCreds.setPassword(password);
-
-        this.setLoginCredentials(loginCreds);
     }
 
     public String getName() {

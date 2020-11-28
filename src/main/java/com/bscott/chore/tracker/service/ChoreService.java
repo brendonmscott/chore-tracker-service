@@ -12,8 +12,8 @@ import java.util.Optional;
 @Service
 public class ChoreService {
 
-    private ChoreRepository choreRepository;
-    private UserService userService;
+    private final ChoreRepository choreRepository;
+    private final UserService userService;
 
     @Autowired
     public ChoreService(ChoreRepository choreRepository, UserService userService) {

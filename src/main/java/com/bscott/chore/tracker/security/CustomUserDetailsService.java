@@ -28,12 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username)
         );
 
-        return UserPrincipal.create(loginCredentials.getUser());
+        return UserPrincipal.create(loginCredentials.getUser(), loginCredentials);
     }
 
     // This method is used by JWTAuthenticationFilter
     @Transactional
     public UserDetails loadUserById(Integer id) {
+
         User user = userRepository.findById(id).orElseThrow(
             () -> new UsernameNotFoundException("User not found with id : " + id)
         );

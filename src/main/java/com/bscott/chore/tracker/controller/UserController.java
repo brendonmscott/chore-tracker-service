@@ -1,6 +1,8 @@
 package com.bscott.chore.tracker.controller;
 
+import com.bscott.chore.tracker.domain.LoginCredentials;
 import com.bscott.chore.tracker.domain.User;
+import com.bscott.chore.tracker.dto.FamilyMemberDto;
 import com.bscott.chore.tracker.dto.UserDto;
 import com.bscott.chore.tracker.service.UserService;
 import com.bscott.chore.tracker.translator.UserTranslator;
@@ -81,9 +83,14 @@ public class UserController {
             @ApiParam(value = "The userId to add a family member to", required = true)
             @PathVariable("id") Integer id,
             @ApiParam(value = "The family member to add", required = true)
-            @RequestBody UserDto familyMember) {
+            @RequestBody FamilyMemberDto familyMember) {
 
-        User updatedUser = userService.addFamilyMember(id, userTranslator.toEntity(familyMember));
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setUsername(familyMember.getCredentials().getUsername());
+        loginCredentials.setPassword(familyMember.getCredentials().getPassword());
+
+        User updatedUser = userService.addFamilyMember(
+                id, userTranslator.toEntity(familyMember.getUser()), loginCredentials);
         return ResponseEntity.ok(userTranslator.toDto(updatedUser));
     }
 

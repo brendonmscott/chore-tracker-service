@@ -37,14 +37,10 @@ public class Chore {
     @Column(columnDefinition = "DATE")
     private LocalDate expireDate;
     @Column
-    private boolean completed;
-    @Column
-    private boolean approved;
-    @Column
     private BigDecimal monetaryValue;
     @Column
     private Integer ownerId;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinTable(joinColumns = @JoinColumn(
                     name = "chore_id",
                     referencedColumnName = "id"),
