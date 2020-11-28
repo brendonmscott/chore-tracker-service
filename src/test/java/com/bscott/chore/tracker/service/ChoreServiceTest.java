@@ -36,8 +36,7 @@ public class ChoreServiceTest {
 
         choreService = new ChoreService(choreRepository, userService);
 
-        user = new User("Emery", "Scott", LocalDate.parse("2005-04-09"),
-                "escott", "emery@nowhere.com", "password");
+        user = new User("Emery", "Scott", LocalDate.parse("2005-04-09"), "emery@nowhere.com");
 
         choreOne.setDescription("Clean your room");
         choreOne.setAssignees(new ArrayList<>());

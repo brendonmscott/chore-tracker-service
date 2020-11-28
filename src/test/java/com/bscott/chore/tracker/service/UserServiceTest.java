@@ -33,11 +33,9 @@ public class UserServiceTest {
     @Before
     public void setup(){
 
-        user = new User("Brendon", "Scott", LocalDate.parse("1975-12-19"),
-                "bscott", "brendon@nowhere.com", "password1");
+        user = new User("Brendon", "Scott", LocalDate.parse("1975-12-19"), "brendon@nowhere.com");
 
-        familyMember = new User("Emery", "Scott", LocalDate.parse("2005-04-09"),
-                "escott", "emery@nowhere.com", "password2");
+        familyMember = new User("Emery", "Scott", LocalDate.parse("2005-04-09"), "emery@nowhere.com");
     }
 
     @Test

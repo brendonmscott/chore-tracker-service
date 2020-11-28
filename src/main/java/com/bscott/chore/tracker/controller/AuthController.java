@@ -1,5 +1,6 @@
 package com.bscott.chore.tracker.controller;
 
+import com.bscott.chore.tracker.domain.LoginCredentials;
 import com.bscott.chore.tracker.domain.User;
 import com.bscott.chore.tracker.dto.ApiResponse;
 import com.bscott.chore.tracker.dto.JwtAuthenticationResponseDto;
@@ -62,11 +63,16 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequest) {
 
-        User registeredUser = userService.registerNewUser(registrationTranslator.toEntity(signUpRequest));
+        User newUser = registrationTranslator.toEntity(signUpRequest);
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setUsername(signUpRequest.getCredentials().getUsername());
+        loginCredentials.setPassword(signUpRequest.getCredentials().getPassword());
+
+        userService.registerNewUser(newUser, loginCredentials);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users" + "?" + "username={username}")
-                .buildAndExpand(registeredUser.getLoginCredentials().getUsername()).toUri();
+                .buildAndExpand(loginCredentials.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(Boolean.TRUE, "User registered successfully"));
     }

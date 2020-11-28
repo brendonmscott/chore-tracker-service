@@ -1,5 +1,6 @@
 package com.bscott.chore.tracker.security;
 
+import com.bscott.chore.tracker.domain.LoginCredentials;
 import com.bscott.chore.tracker.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
@@ -32,6 +33,21 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
+    public static UserPrincipal create(User user, LoginCredentials loginCredentials) {
+        List<GrantedAuthority> authorities = user.getRoles()
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
+
+        return new UserPrincipal(
+                user.getId(),
+                user.getName(),
+                loginCredentials.getUsername(),
+                loginCredentials.getPassword(),
+                authorities
+        );
+    }
+
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream()
@@ -41,8 +57,8 @@ public class UserPrincipal implements UserDetails {
         return new UserPrincipal(
                 user.getId(),
                 user.getName(),
-                user.getLoginCredentials().getUsername(),
-                user.getLoginCredentials().getPassword(),
+                null,
+                null,
                 authorities
         );
     }

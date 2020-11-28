@@ -28,7 +28,6 @@ public class UserDto {
     private List<RoleDto> roles;
     private List<UserDto> familyMembers;
     private Integer pointsEarned;
-    private BigDecimal moneyEarned;
-    @NotNull
-    private CredentialsDto loginCredentials;
+    private BigDecimal savings;
+    private BigDecimal wallet;
 }

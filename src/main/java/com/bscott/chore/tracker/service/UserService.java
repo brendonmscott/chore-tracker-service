@@ -39,25 +39,27 @@ public class UserService {
         return loginCredentials.getUser();
     }
 
-    public User registerNewUser(User user) {
+    public User registerNewUser(User user, LoginCredentials loginCredentials) {
 
-        if (loginRepository.existsByUsername(user.getLoginCredentials().getUsername())) {
-            throw new UserAlreadyExistsException("Username " + user.getLoginCredentials().getUsername() + " already in use!");
+        if (loginRepository.existsByUsername(loginCredentials.getUsername())) {
+            throw new UserAlreadyExistsException("Username " + loginCredentials.getUsername() + " already in use!");
         }
 
         User result = userRepository.save(user);
-        result.getLoginCredentials().setUser(result);
-        loginRepository.save(result.getLoginCredentials());
+
+        // Save Login Credentials
+        loginCredentials.setUser(result);
+        loginRepository.save(loginCredentials);
         return user;
     }
 
-    public User addFamilyMember(Integer userId, User familyMember) {
+    public User addFamilyMember(Integer userId, User familyMember, LoginCredentials loginCredentials) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        familyMember.getLoginCredentials().setPassword(passwordEncoder.encode(familyMember.getLoginCredentials().getPassword()));
-        User newFamilyMember = registerNewUser(familyMember);
+        loginCredentials.setPassword(passwordEncoder.encode(loginCredentials.getPassword()));
+        User newFamilyMember = registerNewUser(familyMember, loginCredentials);
 
         if (user.getFamilyMembers() == null) {
             user.setFamilyMembers(new ArrayList<>());

@@ -65,7 +65,7 @@ public class UserTranslatorTest {
         user.setFirstName("Emery");
         user.setLastName("Scott");
         user.setBirthDate(LocalDate.parse("2016-04-09"));
-        user.setMoneyEarned(BigDecimal.ZERO);
+        user.setSavings(BigDecimal.ZERO);
         user.setPointsEarned(100);
 
         user.setRoles(new ArrayList<>());
@@ -77,7 +77,7 @@ public class UserTranslatorTest {
         assertEquals(user.getFirstName(), userDto.getFirstName());
         assertEquals(user.getLastName(), userDto.getLastName());
         assertEquals(user.getBirthDate().toString(), userDto.getBirthDate());
-        assertEquals(user.getMoneyEarned(), userDto.getMoneyEarned());
+        assertEquals(user.getSavings(), userDto.getSavings());
         assertEquals(user.getPointsEarned(), userDto.getPointsEarned());
         assertEquals(2, userDto.getRoles().size());
         assertEquals("admin", userDto.getRoles().get(0).getName());
@@ -97,20 +97,18 @@ public class UserTranslatorTest {
 
         List<User> users = new ArrayList<>();
 
-        User user1 = new User("Brendon", "Scott", LocalDate.parse("1975-12-19"),
-        "userName1", "email1", "password1");
+        User user1 = new User("Brendon", "Scott", LocalDate.parse("1975-12-19"), "email1");
         user1.setId(USER1_ID);
-        user1.setMoneyEarned(BigDecimal.ZERO);
+        user1.setSavings(BigDecimal.ZERO);
         user1.setPointsEarned(0);
         user1.setRoles(new ArrayList<>());
         user1.getRoles().add(adminRole);
         user1.getRoles().add(userRole);
         users.add(user1);
 
-        User user2 = new User("Emery", "Scott", LocalDate.parse("2005-04-09"),
-                "userName2", "email2", "password2");
+        User user2 = new User("Emery", "Scott", LocalDate.parse("2005-04-09"), "email2");
         user2.setId(USER2_ID);
-        user2.setMoneyEarned(BigDecimal.ZERO);
+        user2.setSavings(BigDecimal.ZERO);
         user2.setPointsEarned(100);
         user2.setRoles(new ArrayList<>());
         user2.getRoles().add(userRole);
@@ -122,7 +120,7 @@ public class UserTranslatorTest {
         assertEquals(user1.getFirstName(), userDtos.get(0).getFirstName());
         assertEquals(user1.getLastName(), userDtos.get(0).getLastName());
         assertEquals(user1.getBirthDate().toString(), userDtos.get(0).getBirthDate());
-        assertEquals(user1.getMoneyEarned(), userDtos.get(0).getMoneyEarned());
+        assertEquals(user1.getSavings(), userDtos.get(0).getSavings());
         assertEquals(user1.getPointsEarned(), userDtos.get(0).getPointsEarned());
         assertEquals(2, userDtos.get(0).getRoles().size());
         assertEquals("admin", userDtos.get(0).getRoles().get(0).getName());
@@ -132,7 +130,7 @@ public class UserTranslatorTest {
         assertEquals(user2.getFirstName(), userDtos.get(1).getFirstName());
         assertEquals(user2.getLastName(), userDtos.get(1).getLastName());
         assertEquals(user2.getBirthDate().toString(), userDtos.get(1).getBirthDate());
-        assertEquals(user2.getMoneyEarned(), userDtos.get(1).getMoneyEarned());
+        assertEquals(user2.getSavings(), userDtos.get(1).getSavings());
         assertEquals(user2.getPointsEarned(), userDtos.get(1).getPointsEarned());
         assertEquals(1, userDtos.get(1).getRoles().size());
         assertEquals("user", userDtos.get(1).getRoles().get(0).getName());
@@ -159,7 +157,7 @@ public class UserTranslatorTest {
         userDto.setFirstName("Emery");
         userDto.setLastName("Scott");
         userDto.setBirthDate("2016-04-09");
-        userDto.setMoneyEarned(BigDecimal.ZERO);
+        userDto.setSavings(BigDecimal.ZERO);
         userDto.setPointsEarned(100);
 //        userDto.setPassword("password1");
 
@@ -172,9 +170,8 @@ public class UserTranslatorTest {
         assertEquals(userDto.getFirstName(), user.getFirstName());
         assertEquals(userDto.getLastName(), user.getLastName());
         assertEquals(userDto.getBirthDate(), user.getBirthDate().toString());
-        assertEquals(userDto.getMoneyEarned(), user.getMoneyEarned());
+        assertEquals(userDto.getSavings(), user.getSavings());
         assertEquals(userDto.getPointsEarned(), user.getPointsEarned());
-//        assertEquals("EncodedPassword1", userDto.getPassword());
         assertEquals(2, user.getRoles().size());
         assertEquals("admin", user.getRoles().get(0).getName());
         assertEquals("user", user.getRoles().get(1).getName());
