@@ -168,10 +168,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <!-- For Debugging -->
-            <configuration>
-               <executable>true</executable>
-               <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</jvmArguments>
-            </configuration>
+<!--            <configuration>-->
+<!--               <executable>true</executable>-->
+<!--               <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</jvmArguments>-->
+<!--            </configuration>-->
             <executions>
                <execution>
                   <goals>
